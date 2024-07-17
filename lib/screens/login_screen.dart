@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'home_screen.dart';
+import 'home_screen.dart'; // Ensure this import is correct
 
 class LoginScreen extends StatelessWidget {
   final TextEditingController emailController = TextEditingController();
@@ -36,14 +36,19 @@ class LoginScreen extends StatelessWidget {
                     ),
                   ),
                   SizedBox(height: 60),
-
-                  // 로그인 폼 컨테이너
                   Container(
                     padding: EdgeInsets.all(16.0),
                     decoration: BoxDecoration(
                       color: Colors.white,
                       borderRadius: BorderRadius.circular(20),
-                      border: Border.all(color: Colors.white.withOpacity(0.3)),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.black.withOpacity(0.2),
+                          spreadRadius: 2,
+                          blurRadius: 7,
+                          offset: Offset(0, 3), // changes position of shadow
+                        ),
+                      ],
                     ),
                     child: Column(
                       mainAxisSize: MainAxisSize.min,
@@ -86,25 +91,25 @@ class LoginScreen extends StatelessWidget {
                         ElevatedButton(
                           key: Key('loginButton'),
                           style: ElevatedButton.styleFrom(
+                            foregroundColor: Colors.black,
                             backgroundColor: Colors.white.withOpacity(0.3),
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(25),
                             ),
+                            padding: EdgeInsets.symmetric(horizontal: 40, vertical: 16),
+                            textStyle: TextStyle(fontSize: 18),
+                            shadowColor: Colors.black.withOpacity(0.2),
+                            elevation: 5,
                           ),
                           onPressed: () {
-                            // 이메일 형식 검사
                             if (emailController.text.isNotEmpty &&
                                 passwordController.text.isNotEmpty) {
-                              // 이메일 형식 확인
                               if (RegExp(r'^[^@]+@[^@]+\.[^@]+').hasMatch(emailController.text)) {
-                                // 로그인 된다면 메인화면으로 이동
                                 Navigator.pushReplacement(
                                   context,
-                                  MaterialPageRoute(
-                                      builder: (context) => HomeScreen()),
+                                  MaterialPageRoute(builder: (context) => HomeScreen()), // Correct usage of HomeScreen
                                 );
                               } else {
-                                // 잘못된 이메일 형식 경고
                                 showDialog(
                                   context: context,
                                   builder: (context) => AlertDialog(
@@ -122,7 +127,6 @@ class LoginScreen extends StatelessWidget {
                                 );
                               }
                             } else {
-                              // 이메일과 패스워드 필드가 비어있으면 경고하기
                               showDialog(
                                 context: context,
                                 builder: (context) => AlertDialog(
@@ -140,8 +144,7 @@ class LoginScreen extends StatelessWidget {
                               );
                             }
                           },
-                          child: Text('로그인',
-                              style: TextStyle(color: Colors.black)),
+                          child: Text('로그인'),
                         ),
                       ],
                     ),
@@ -162,9 +165,15 @@ class LoginScreen extends StatelessWidget {
       decoration: BoxDecoration(
         color: color,
         shape: BoxShape.circle,
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.2),
+            spreadRadius: 2,
+            blurRadius: 7,
+            offset: Offset(0, 3), // changes position of shadow
+          ),
+        ],
       ),
     );
   }
 }
-
-

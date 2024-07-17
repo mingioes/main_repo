@@ -63,7 +63,7 @@ class HomeScreenContent extends StatelessWidget {
       child: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Text(
               '유저님 안녕하세요!',
@@ -72,112 +72,135 @@ class HomeScreenContent extends StatelessWidget {
                 fontWeight: FontWeight.bold,
               ),
             ),
-            SizedBox(height: 45),
-            GestureDetector(
+            SizedBox(height: 20),
+            _buildShadowedContainer(
+              context: context,
               onTap: () => onTap(0),
-              child: Container(
-                width: double.infinity,
-                height: 100,
-                decoration: BoxDecoration(
-                  color: Colors.black,
-                  borderRadius: BorderRadius.circular(20.0),
-                ),
-                child: Center(
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Icon(Icons.shopping_cart_outlined, color: Colors.white, size: 28),
-                      SizedBox(width: 8),
-                      Text(
-                        '나만의 옷장',
-                        style: TextStyle(color: Colors.white, fontSize: 22),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
+              icon: Icons.shopping_cart_outlined,
+              label: '나만의 옷장',
+              color: Colors.black,
+              textColor: Colors.white,
             ),
             SizedBox(height: 16),
             Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                GestureDetector(
+                _buildRoundedContainer(
+                  context: context,
                   onTap: () => onTap(1),
-                  child: Container(
-                    width: MediaQuery.of(context).size.width / 2 - 20,
-                    height: 100,
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(20.0),
-                      border: Border.all(color: Colors.black, width: 2.0),
-                    ),
-                    child: Center(
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Icon(Icons.message, color: Colors.black, size: 28),
-                          SizedBox(width: 8),
-                          Text(
-                            '게시판',
-                            style: TextStyle(color: Colors.black, fontSize: 22),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
+                  icon: Icons.message,
+                  label: '게시판',
+                  color: Colors.white,
+                  borderColor: Colors.black,
                 ),
-                GestureDetector(
+                SizedBox(width: 16),
+                _buildRoundedContainer(
+                  context: context,
                   onTap: () => onTap(3),
-                  child: Container(
-                    width: MediaQuery.of(context).size.width / 2 - 20,
-                    height: 100,
-                    decoration: BoxDecoration(
-                      color: Colors.pink,
-                      borderRadius: BorderRadius.circular(20.0),
-                    ),
-                    child: Center(
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Icon(Icons.android, color: Colors.white, size: 28),
-                          SizedBox(width: 8),
-                          Text(
-                            'AI 코디하기',
-                            style: TextStyle(color: Colors.white, fontSize: 22),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
+                  icon: Icons.android,
+                  label: 'AI 코디하기',
+                  color: Colors.pink,
+                  textColor: Colors.white,
                 ),
               ],
             ),
             SizedBox(height: 16),
-            GestureDetector(
+            _buildShadowedContainer(
+              context: context,
               onTap: () => onTap(4),
-              child: Container(
-                width: double.infinity,
-                height: 100,
-                decoration: BoxDecoration(
-                  color: Color(0xFFFBC02D),
-                  borderRadius: BorderRadius.circular(20.0),
-                ),
-                child: Center(
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Icon(Icons.palette, color: Colors.white, size: 28),
-                      SizedBox(width: 8),
-                      Text(
-                        '내 퍼스널컬러 진단하기',
-                        style: TextStyle(color: Colors.white, fontSize: 22),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
+              icon: Icons.palette,
+              label: '내 퍼스널컬러 진단하기',
+              color: Color(0xFFFBC02D),
+              textColor: Colors.white,
             ),
           ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildRoundedContainer({
+    required BuildContext context,
+    required VoidCallback onTap,
+    required IconData icon,
+    required String label,
+    required Color color,
+    Color? textColor,
+    Color? borderColor,
+  }) {
+    return GestureDetector(
+      onTap: onTap,
+      child: Container(
+        width: MediaQuery.of(context).size.width / 2 - 32, // Adjusted width for square shape and spacing
+        height: 100,
+        decoration: BoxDecoration(
+          color: color,
+          borderRadius: BorderRadius.circular(20.0),
+          border: borderColor != null ? Border.all(color: borderColor, width: 2.0) : null,
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withOpacity(0.2),
+              spreadRadius: 2,
+              blurRadius: 7,
+              offset: Offset(0, 3),
+            ),
+          ],
+        ),
+        child: Center(
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Icon(icon, color: textColor ?? Colors.black, size: 28),
+              SizedBox(width: 8),
+              Text(
+                label,
+                style: TextStyle(color: textColor ?? Colors.black, fontSize: 18), // Adjusted font size
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildShadowedContainer({
+    required BuildContext context,
+    required VoidCallback onTap,
+    required IconData icon,
+    required String label,
+    required Color color,
+    Color? textColor,
+  }) {
+    return GestureDetector(
+      onTap: onTap,
+      child: Container(
+        width: double.infinity,
+        height: 100,
+        margin: EdgeInsets.symmetric(horizontal: 16.0), // Centering adjustment
+        decoration: BoxDecoration(
+          color: color,
+          borderRadius: BorderRadius.circular(20.0),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withOpacity(0.2),
+              spreadRadius: 2,
+              blurRadius: 7,
+              offset: Offset(0, 3),
+            ),
+          ],
+        ),
+        child: Center(
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Icon(icon, color: textColor ?? Colors.black, size: 28),
+              SizedBox(width: 8),
+              Text(
+                label,
+                style: TextStyle(color: textColor ?? Colors.black, fontSize: 22),
+              ),
+            ],
+          ),
         ),
       ),
     );

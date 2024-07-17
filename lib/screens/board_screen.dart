@@ -92,8 +92,16 @@ class BoardScreen extends StatelessWidget {
   Widget _buildRoundedButton(BuildContext context, String text, VoidCallback onPressed) {
     return Container(
       decoration: BoxDecoration(
-        color: Colors.black, // Change background color to black
+        color: Colors.black,
         borderRadius: BorderRadius.circular(16.0),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.grey.withOpacity(0.5),
+            spreadRadius: 2,
+            blurRadius: 7,
+            offset: Offset(0, 3), // changes position of shadow
+          ),
+        ],
       ),
       child: ElevatedButton.icon(
         onPressed: onPressed,
@@ -103,17 +111,19 @@ class BoardScreen extends StatelessWidget {
             borderRadius: BorderRadius.circular(16.0),
           ),
           padding: EdgeInsets.all(16.0),
+          elevation: 5, // Add elevation for shadow effect
         ),
-        icon: Icon(Icons.edit, size: 24), // Adds pencil icon
+        icon: Icon(Icons.edit, size: 24),
         label: Text(
           text,
           style: TextStyle(
-            fontSize: 20, // Increase font size
+            fontSize: 20,
           ),
         ),
       ),
     );
   }
+
 
 
   void _onRegisterPost() {
